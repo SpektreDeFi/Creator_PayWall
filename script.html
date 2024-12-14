@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ACS Widget dev page</title>
+    <link rel="icon" href="/favicon.ico" />
+   
+    <!-- <link rel="stylesheet" href="https://d3bgshfwq8wmv6.cloudfront.net/acs-widget/main.css" /> -->
+  </head>
+  <style>
+    #spektrewidget1 {
+    display:none;
+    }
+  /*  h3 {
+      font-size: calc((var(--heading-3-size-value) - 1) * 1.2vw + 1rem);
+      }
+    h2 {
+    font-size: calc((var(--heading-2-size-value) - 1) * 1.2vw + 1rem);
+} */
+  </style>
+  <body>
+    <div id="spektrewidget1" style="padding: 2rem;">
+      <h1>SPEKTRE ACS SITE</h1><br>
+      <h2>To have access to this you should <b>Connect the wallet</b></h2><br>
+    
+    
+    
+      <div id="acs"></div>
+      
+      <!-- Add the div for displaying "bravo" or "not bravo" -->
+      <div id="result">
+        <br>
+        <h1></h1>
+        <br><br>
+        <img id="resultImage" src="" alt="">
+        <br><br><br>
+        <a id="resultLink" href="" target="_blank">Spektre</a>
+      </div>
+    </div>
+
+    <script>
+       let outputsReceived = false;
+  (function (w, d, s, o, f, js, fjs) {
+    w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments) };
+    js = d.createElement(s), fjs = d.getElementsByTagName(s)[0];
+    js.id = o; js.src = f; js.async = 1; fjs.parentNode.insertBefore(js, fjs);
+  }(window, document, 'script', '_acs', 'https://d3bgshfwq8wmv6.cloudfront.net/acs-widget/widget.js'));
+  
+  _acs('init', {
+    element: document.getElementById('acs'),
+    debug: true,
+    poolId: 'J8TpW6cypxheFUYjWn4mxS6ExvBEMxyMiRvrf43Nhnvy',
+    poolName: "Spektre",
+  });
+  
+  let lockedassets; // Declare the variable to store the value
+
+  document.querySelector("#acs").addEventListener("connected", (event) => {
+     console.log("Connected to the wallet with address: " + JSON.stringify(event.detail));
+    outputsReceived = true;
+    if (event.detail) {
+          lockedassets = event.detail.locked; // Update the variable if connected
+        }
+
+        console.log("Locked: " + lockedassets);
+
+        const resultDiv = document.getElementById("result");
+        const resultHeading = resultDiv.querySelector("h1");
+        const resultImage = resultDiv.querySelector("#resultImage");
+        const resultLink = resultDiv.querySelector("#resultLink");
+
+        if (lockedassets < 5000) {
+      // Redirect to the homepage
+      alert("Warpgate Status: Insufficient ACS in your Spektre reservoir. Please subscribe for uninterrupted exploration.");
+      window.location.href = "https://www.spektre.biz/warpgate";
+    } else {
+      resultHeading.textContent = "You have enough ACS locked on Spektre pool to have access to this site";
+      resultImage.src = "https://hotemoji.com/images/emoji/z/1abjstv1uju3kz.png"; // Replace with the actual image URL
+      resultLink.href = "#"; // Replace with the actual link URL
+    }
+  });
+  setTimeout(() => {
+    if (!outputsReceived) {
+        console.log("Function has no outputs");
+        alert("Initiate a Warpgate link: Connect your wallet for exclusive content access. Missing the key? Subscribe to unlock the universe.");
+        window.location.href = "https://www.spektre.biz/warpgate";
+    }
+}, 3200); // Adjust the timeout duration as needed    
+  
+</script>
+
+  </body>
+</html>
